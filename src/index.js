@@ -5,8 +5,6 @@ import debounce from 'lodash.debounce';
 
 const DEBOUNCE_DELAY = 300;
 
-// const debounce = require('lodash.debounce');
-
 const refs = {
   input: document.querySelector('#search-box'),
   countryList: document.querySelector('.country-list'),
@@ -21,7 +19,7 @@ function onInputSearch(e) {
     refs.countryList.innerHTML = '';
   }
 
-  if (refs.input.value === '') {
+  if (inputName.length === 0) {
     return;
   }
 
@@ -29,6 +27,7 @@ function onInputSearch(e) {
     .then(dataPromise)
     .catch(() => Notiflix.Notify.failure('Oops, there is no country with that name'));
 }
+
 function dataPromise(data) {
   if (data.length === 1) {
     return renderOneHtml(data[0]);
@@ -43,6 +42,7 @@ function renderCountryCard(data) {
   const { flags, name } = data;
   refs.countryList.innerHTML += `<li class="country-list__item"><img class="country-list__image" src="${flags.svg}" alt="${name.official}"><h2 class="country-list__title">${name.official}</h2></li>`;
 }
+
 function renderOneHtml(data) {
   const { flags, name, capital, population, languages } = data;
   const languagesStr = Object.values(languages).join(', ');
